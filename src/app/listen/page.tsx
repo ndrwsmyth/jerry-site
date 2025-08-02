@@ -4,56 +4,66 @@ export default function Listen() {
   return (
     <>
       <NavBar />
+    
+      
       <div className="pt-24 pb-16 px-4 max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold mb-8">Listen</h1>
-        <iframe
-          allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write"
-          frameBorder="0"
-          height="450"
-          style={{
-            width: '100%',
-            maxWidth: '660px',
-            overflow: 'hidden',
-            borderRadius: '10px'
-          }}
-          sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
-          src="https://embed.music.apple.com/us/playlist/may-25/pl.u-Zmbl3kGT0vm4N26"
-        />
-
-        <div className="flex justify-center">
+        <div className="mt-8 flex justify-center">
           <iframe 
-            allow="autoplay *; encrypted-media *;" 
+            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
             frameBorder="0" 
             height="450" 
-            style={{width:"100%", maxWidth:"660px", overflow:"hidden", background:"transparent"}} 
+            style={{width:"100%", maxWidth:"660px", overflow:"hidden", borderRadius:"10px"}} 
+            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
+            src="https://embed.music.apple.com/us/playlist/jul-25/pl.u-AkAmzVNh2pZk1ed"
+          />
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <iframe 
+            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
+            frameBorder="0" 
+            height="450" 
+            style={{width:"100%", maxWidth:"660px", overflow:"hidden", borderRadius:"10px"}} 
+            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
+            src="https://embed.music.apple.com/us/playlist/jun-25/pl.u-Ymb0DZyIPjEkANm"
+          />
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <iframe 
+            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
+            frameBorder="0" 
+            height="450" 
+            style={{width:"100%", maxWidth:"660px", overflow:"hidden", borderRadius:"10px"}} 
+            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
+            src="https://embed.music.apple.com/us/playlist/may-25/pl.u-Zmbl3kGT0vm4N26"
+          />
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <iframe 
+            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
+            frameBorder="0" 
+            height="450" 
+            style={{width:"100%", maxWidth:"660px", overflow:"hidden", borderRadius:"10px"}} 
             sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
             src="https://embed.music.apple.com/us/playlist/apr-25/pl.u-Ymb0DRRhPjEkANm"
           />
         </div>
 
-        <div className="flex justify-center">
+        <div className="mt-8 flex justify-center">
           <iframe 
-            allow="autoplay *; encrypted-media *;" 
+            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
             frameBorder="0" 
             height="450" 
-            style={{width:"100%", maxWidth:"660px", overflow:"hidden", background:"transparent"}} 
-            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
-            src="https://embed.music.apple.com/us/playlist/apr-25/pl.u-Ymb0DRRhPjEkANm"
-          />
-        </div>
-
-        <div className="flex justify-center">
-          <iframe 
-            allow="autoplay *; encrypted-media *;" 
-            frameBorder="0" 
-            height="450" 
-            style={{width:"100%", maxWidth:"660px", overflow:"hidden", background:"transparent"}} 
+            style={{width:"100%", maxWidth:"660px", overflow:"hidden", borderRadius:"10px"}} 
             sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
             src="https://embed.music.apple.com/us/playlist/mar-25/pl.u-Zmbl32oc0vm4N26"
           />
         </div>
         
-        <div className="flex justify-center">
+        <div className="mt-8 flex justify-center">
           <iframe 
             allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
             frameBorder="0" 
