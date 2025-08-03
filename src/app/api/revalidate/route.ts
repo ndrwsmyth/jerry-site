@@ -28,7 +28,8 @@ export async function POST(request: NextRequest) {
       console.log('Shop page revalidated successfully');
       
       // If you have individual product pages, you might want to revalidate those too
-      // revalidatePath(`/shop/${body._id}`);
+      revalidatePath(`/shop/product/${body._id}`);
+      console.log('Individual product page revalidated successfully');
     }
     
     // Handle portfolio content changes
@@ -38,8 +39,17 @@ export async function POST(request: NextRequest) {
       console.log('Portfolio page revalidated successfully');
       
       // If you have individual portfolio item pages, revalidate those too
-      revalidatePath('/portfolio/[slug]');
+      revalidatePath(`/portfolio/${body.slug?.current}`);
       console.log('Individual portfolio pages revalidated successfully');
+    }
+
+    // Handle photo collection changes
+    if (documentType === 'photoCollection') {
+      revalidatePath('/photos');
+      console.log('Photos page revalidated successfully');
+      
+      revalidatePath(`/photos/${body.slug?.current}`);
+      console.log('Individual photo collection page revalidated successfully');
     }
     
     return NextResponse.json({ revalidated: true, now: Date.now() });
