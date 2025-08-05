@@ -4,20 +4,55 @@ import { useRef, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import GameStart from "./GameStart";
 
+declare global {
+  interface Window {
+    MSStream?: unknown;
+  }
+}
+
 export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isAutoplayBlocked, setIsAutoplayBlocked] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isLowPowerMode, setIsLowPowerMode] = useState(false); // New state for detection
   
   const { ref: inViewRef } = useInView({
     threshold: 0.5,
   });
 
   useEffect(() => {
+    // Low Power Mode detection workaround (only run if iOS detected for efficiency)
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window.MSStream);
+    if (isIOS) {
+      const testVideo = document.createElement('video');
+      testVideo.setAttribute('playsinline', '');
+      testVideo.setAttribute('muted', '');
+      testVideo.setAttribute('loop', '');
+      testVideo.style.display = 'none';
+      // Use a tiny test video source (create a small MP4 file or use a data URL for a blank video)
+      testVideo.src = '/videos/tiny-test.mp4'; // Replace with your actual tiny test video path (~1KB silent clip)
+      
+      const handleSuspend = () => {
+        setIsLowPowerMode(true);
+        testVideo.remove(); // Clean up
+      };
+
+      testVideo.addEventListener('suspend', handleSuspend);
+      document.body.appendChild(testVideo);
+      testVideo.play().catch(() => {}); // Attempt play, ignore errors here
+
+      return () => {
+        testVideo.removeEventListener('suspend', handleSuspend);
+        testVideo.remove();
+      };
+    }
+  }, []);
+
+  useEffect(() => {
     const videoElement = videoRef.current;
     
-    if (videoElement) {
+    if (videoElement && !isLowPowerMode) { // Only proceed if not low power
       const handleError = (e: Event) => {
         console.error('Video error:', e);
         setIsAutoplayBlocked(true);
@@ -53,9 +88,7 @@ export default function HeroSection() {
         setIsPlaying(false);
       };
 
-      // Only set autoplay blocked on actual play promise rejection or load errors
       const handleCanPlay = () => {
-        // Last attempt to play when video can play
         if (!isPlaying) {
           const playPromise = videoElement.play();
           if (playPromise !== undefined) {
@@ -74,7 +107,7 @@ export default function HeroSection() {
       videoElement.addEventListener('pause', handlePause);
       videoElement.addEventListener('canplay', handleCanPlay);
       
-      // Load the video
+      // Load the video only if not low power
       videoElement.load();
 
       return () => {
@@ -85,12 +118,14 @@ export default function HeroSection() {
         videoElement.removeEventListener('pause', handlePause);
         videoElement.removeEventListener('canplay', handleCanPlay);
       };
+    } else if (isLowPowerMode) {
+      setIsAutoplayBlocked(true); // Directly block if low power
     }
-  }, [isPlaying]);
+  }, [isPlaying, isLowPowerMode]);
 
   return (
     <div ref={inViewRef} className="relative min-h-[200px] h-screen w-full overflow-hidden bg-black">
-      {/* Background Video */}
+      {/* Background Video - only render source if not low power */}
       <video
         ref={videoRef}
         className={`absolute w-full h-full object-cover transition-all duration-1000 ease-in-out
@@ -98,16 +133,18 @@ export default function HeroSection() {
           ${isLoaded && !isAutoplayBlocked ? 'opacity-100' : 'opacity-0'}`}
         muted
         playsInline
-        autoPlay
+        autoPlay={!isLowPowerMode}
         loop
-        preload="auto"
+        preload={isLowPowerMode ? "none" : "auto"}
       >
-        <source src="/videos/intro_crop_noaudio.mp4" type="video/mp4" />
+        {!isLowPowerMode && (
+          <source src="/videos/intro_crop_noaudio.mp4" type="video/mp4" />
+        )}
         Your browser does not support the video tag.
       </video>
 
-      {/* Static Poster Image (shown when autoplay is blocked) */}
-      {isAutoplayBlocked && (
+      {/* Static Poster Image (shown when autoplay blocked or low power) */}
+      {(isAutoplayBlocked || isLowPowerMode) && (
         <div 
           className="absolute w-full h-full object-cover min-h-[600px] scale-[1.02] bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/images/hero-poster.jpg')" }}
@@ -118,7 +155,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-black/30" />
       
       {/* GameStart component - pass isAutoplayBlocked to show immediately */}
-      <GameStart forceVisible={isAutoplayBlocked} />
+      <GameStart forceVisible={isAutoplayBlocked || isLowPowerMode} />
     </div>
   );
-} 
+}
