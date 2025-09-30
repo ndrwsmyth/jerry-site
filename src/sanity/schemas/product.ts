@@ -12,6 +12,17 @@ const productSchema = {
         validation: (Rule: Rule) => Rule.required()
       },
       {
+        name: 'season',
+        title: 'Season',
+        type: 'reference',
+        to: [{ type: 'season' }],
+        validation: (Rule: Rule) => Rule.required(),
+        description: 'The season/collection this product belongs to',
+        options: {
+          disableNew: false,
+        },
+      },
+      {
         name: 'slug',
         title: 'Slug',
         type: 'slug',

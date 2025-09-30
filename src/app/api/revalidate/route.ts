@@ -32,6 +32,12 @@ export async function POST(request: NextRequest) {
       console.log('Individual product page revalidated successfully');
     }
     
+    // Handle season changes
+    if (documentType === 'season') {
+      revalidatePath('/shop');
+      console.log('Shop page revalidated successfully for season change');
+    }
+    
     // Handle portfolio content changes
     if (documentType === 'portfolio') {
       // Revalidate portfolio page

@@ -1,5 +1,5 @@
 import NavBar from "@/components/NavBar";
-import ProductGrid from "@/components/ProductGrid";
+import SeasonSection from "@/components/SeasonSection";
 import { client } from "@/sanity/client";
 import { groq } from "next-sanity";
 
@@ -14,88 +14,61 @@ interface Product {
   price: number;
   availableForCheckout?: boolean;
   imageUrl?: string;
-  details?: {
-    detailedDescription?: string;
-    features?: string[];
-    images?: string[];
-    dimensions?: {
-      width?: string;
-      depth?: string;
-      height?: string;
-      weight?: string;
-      length?: string;
-      inseam?: string;
-      waist?: string;
-      rise?: string;
-      size?: string;
-      legOpening?: string;
-      armOpening?: string;
-      shoulderToSleeve?: string;
-    };
-  };
 }
 
-// Fetch products from Sanity
-async function getProducts(): Promise<Product[]> {
-  const query = groq`*[_type == "product"] {
+// Define the type for seasons with products
+interface SeasonWithProducts {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  createdAt: string;
+  products: Product[];
+}
+
+// Fetch seasons with their products from Sanity
+async function getSeasonsWithProducts(): Promise<SeasonWithProducts[]> {
+  const query = groq`*[_type == "season"] | order(createdAt desc) {
     _id,
-    name,
-    description,
-    price,
-    availableForCheckout,
-    "imageUrl": mainImage.asset->url,
-    details {
-      detailedDescription,
-      features,
-      "images": images[].asset->url,
-      dimensions {
-        width,
-        depth,
-        height,
-        weight,
-        length,
-        inseam,
-        waist,
-        rise,
-        size,
-        legOpening,
-        armOpening,
-        shoulderToSleeve
-      }
-    }
+    title,
+    slug,
+    createdAt,
+    "products": *[_type == "product" && references(^._id)] {
+      _id,
+      name,
+      description,
+      price,
+      availableForCheckout,
+      "imageUrl": mainImage.asset->url
+    } | order(name asc)
   }`;
   
   return client.fetch(query);
 }
 
 export default async function ShopPage() {
-  const products: Product[] = await getProducts();
-
-  // Transform and sort the data - available products first, then unavailable, both sorted alphabetically
-  const productGridData = products
-    .map(product => ({
-      id: product._id,
-      name: product.name,
-      description: product.description || '',
-      price: product.price,
-      imageUrl: product.imageUrl || '/images/placeholder.jpg',
-      availableForCheckout: product.availableForCheckout
-    }))
-    .sort((a, b) => {
-      // Available products (true) come first, unavailable (false/undefined) come last
-      if (a.availableForCheckout && !b.availableForCheckout) return -1;
-      if (!a.availableForCheckout && b.availableForCheckout) return 1;
-      // If both have same availability status, sort alphabetically by name
-      return a.name.localeCompare(b.name);
-    });
+  const seasons = await getSeasonsWithProducts();
 
   return (
     <>
       <NavBar />
       <div className="min-h-screen pt-16">
-        <div className="container mx-auto py-8">
-          <h1 className="text-3xl font-bold text-center mb-8 uppercase">Shop</h1>
-          <ProductGrid products={productGridData} />
+        <div className="container mx-auto py-8 px-4">
+          <h1 className="text-3xl font-bold text-center mb-12 uppercase">Shop</h1>
+          
+          {seasons.map((season) => (
+            <SeasonSection
+              key={season._id}
+              title={season.title}
+              products={season.products.map(product => ({
+                id: product._id,
+                name: product.name,
+                description: product.description || '',
+                price: product.price,
+                imageUrl: product.imageUrl || '/images/placeholder.jpg',
+                availableForCheckout: product.availableForCheckout
+              }))}
+            />
+          ))}
         </div>
       </div>
     </>
