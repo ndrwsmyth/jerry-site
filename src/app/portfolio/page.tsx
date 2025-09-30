@@ -12,6 +12,7 @@ interface PortfolioItem {
   title: string;
   description?: string;
   slug: string;
+  createdDate: string;
   imageUrl?: string;
   videoUrl?: string;
   videoThumbnailUrl?: string;
@@ -19,11 +20,12 @@ interface PortfolioItem {
 
 // Fetch portfolio items from Sanity
 async function getPortfolioItems(): Promise<PortfolioItem[]> {
-  const query = groq`*[_type == "portfolio"] {
+  const query = groq`*[_type == "portfolio"] | order(createdDate desc) {
     _id,
     title,
     description,
     "slug": slug.current,
+    createdDate,
     "imageUrl": mainImage.asset->url,
     "videoUrl": mainVideo.asset->url,
     "videoThumbnailUrl": mainVideoThumbnail.asset->url
