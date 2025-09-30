@@ -74,6 +74,7 @@ async function getPortfolioItem(slug: string): Promise<PortfolioItem | null> {
   const query = groq`*[_type == "portfolio" && slug.current == $slug][0] {
     title,
     description,
+    createdDate,
     "mainImage": mainImage.asset->{
       "url": url
     },

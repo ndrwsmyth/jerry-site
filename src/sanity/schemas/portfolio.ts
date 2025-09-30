@@ -22,6 +22,16 @@ const portfolioSchema = {
         validation: (Rule: Rule) => Rule.required()
       },
       {
+        name: 'createdDate',
+        title: 'Created Date',
+        type: 'date',
+        description: 'The date this portfolio item was created. Used for sorting on the portfolio page.',
+        validation: (Rule: Rule) => Rule.required(),
+        options: {
+          dateFormat: 'YYYY-MM-DD'
+        }
+      },
+      {
         name: 'description',
         title: 'Description',
         type: 'text'
