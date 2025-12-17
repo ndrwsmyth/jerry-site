@@ -15,6 +15,50 @@ export default function Listen() {
             height="450" 
             style={{width:"100%", maxWidth:"660px", overflow:"hidden", borderRadius:"10px"}} 
             sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
+            src="https://embed.music.apple.com/us/playlist/nov-25/pl.u-AkAmzKmT2pZk1ed"
+          />
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <iframe 
+            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
+            frameBorder="0" 
+            height="450" 
+            style={{width:"100%", maxWidth:"660px", overflow:"hidden", borderRadius:"10px"}} 
+            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
+            src="https://embed.music.apple.com/us/playlist/oct-25/pl.u-b3b8a5BSyR8bA7l"
+          />
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <iframe 
+            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
+            frameBorder="0" 
+            height="450" 
+            style={{width:"100%", maxWidth:"660px", overflow:"hidden", borderRadius:"10px"}} 
+            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
+            src="https://embed.music.apple.com/us/playlist/sep-25/pl.u-vxy6KdDuzypXV3q"
+          />
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <iframe 
+            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
+            frameBorder="0" 
+            height="450" 
+            style={{width:"100%", maxWidth:"660px", overflow:"hidden", borderRadius:"10px"}} 
+            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
+            src="https://embed.music.apple.com/us/playlist/aug-25/pl.u-Ymb0DB0FPjEkANm"
+          />
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <iframe 
+            allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" 
+            frameBorder="0" 
+            height="450" 
+            style={{width:"100%", maxWidth:"660px", overflow:"hidden", borderRadius:"10px"}} 
+            sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" 
             src="https://embed.music.apple.com/us/playlist/jul-25/pl.u-AkAmzVNh2pZk1ed"
           />
         </div>
